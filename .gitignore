@@ -1,0 +1,29 @@
+# Ignora directorios generados
+node_modules/
+dist/
+
+# Ignora archivos de configuración locales
+.env
+.env.local
+
+# Ignora archivos de registro y archivos generados automáticamente
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Ignora archivos de IDE y sistema
+.vscode/
+.idea/
+
+# Ignora archivos de compilación y ejecutables
+/out/
+/tsconfig.tsbuildinfo
+
+# Ignora archivos de paquetes lock
+package-lock.json
+yarn.lock
