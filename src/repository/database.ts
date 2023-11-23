@@ -1,5 +1,6 @@
-import {Pool,createPool} from "mysql2/promise"
+import {createPool} from "mysql2/promise"
 
+//Database connection. Requires changing username and password according to your own account
 export async function connection(){
     const connection = await createPool({
         host: "localhost",

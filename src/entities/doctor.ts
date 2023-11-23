@@ -4,4 +4,5 @@ export interface Doctor{
     especialidad:string;
     consultorio:number;
     correo:string;
+    activo:number;
 }

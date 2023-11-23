@@ -4,5 +4,6 @@ export interface Patient{
     apellido:string;
     edad:number;
     telefono:number;
+    activo:number;
 }
 

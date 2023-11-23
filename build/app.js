@@ -15,29 +15,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
+const body_parser_1 = __importDefault(require("body-parser"));
 /*Routes*/
 const doctor_routes_1 = __importDefault(require("./routes/doctor.routes"));
+const patient_routes_1 = __importDefault(require("./routes/patient.routes"));
+const appointment_routes_1 = __importDefault(require("./routes/appointment.routes"));
+const config = require("./config/config.js");
+//Server settings
 class App {
-    constructor(port) {
+    constructor() {
         this.app = (0, express_1.default)();
-        this.port = port;
         this.middleware();
         this.routes();
-        this.settings();
-    }
-    settings() {
-        this.app.set("port", this.port || process.env.PORT || 3000);
     }
     middleware() {
         this.app.use((0, morgan_1.default)("dev"));
+        this.app.use(body_parser_1.default.json());
+        this.app.use(body_parser_1.default.urlencoded({ extended: true }));
     }
     routes() {
         this.app.use(doctor_routes_1.default);
+        this.app.use(patient_routes_1.default);
+        this.app.use(appointment_routes_1.default);
     }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.app.listen(this.port);
-            console.log("Server on port", this.port);
+            this.app.listen(config.PORT);
+            console.log(`Server on port ${config.PORT}`);
         });
     }
 }

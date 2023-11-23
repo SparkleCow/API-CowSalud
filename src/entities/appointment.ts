@@ -4,5 +4,6 @@ export interface Appointment{
     nombreDoctor:string;
     especialidadDoctor:string;
     consultorio:number;
+    fecha:Date; 
 }
 

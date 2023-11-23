@@ -10,9 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
+const config = require("./config/config.js");
+//Starting server
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const app = new app_1.App(3000);
+        const app = new app_1.App();
         yield app.listen();
     });
 }

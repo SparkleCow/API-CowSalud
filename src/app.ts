@@ -7,22 +7,16 @@ import doctorRouter from "./routes/doctor.routes";
 import patientRouter from "./routes/patient.routes";
 import appointmentRouter from "./routes/appointment.routes";
 
+const config = require("./config/config.js");
 
+//Server settings
 export class App {
     private app: Application;
-    private port: number | string;
 
-    constructor(port : number | string){
+    constructor(){
         this.app = express();
-        this.port = port;
         this.middleware();
         this.routes();
-        this.settings();
-        
-    }
-
-    settings(){
-        this.app.set("port", this.port || process.env.PORT || 3000);
     }
 
     middleware(){
@@ -38,7 +32,7 @@ export class App {
     } 
 
     async listen(){
-        await this.app.listen(this.port);
-        console.log("Server on port",this.port);
+        this.app.listen(config.PORT);
+        console.log(`Server on port ${config.PORT}`);
     }
 }
