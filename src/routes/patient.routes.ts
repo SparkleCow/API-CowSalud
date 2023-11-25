@@ -1,8 +1,13 @@
 import { Router } from "express"
-import { deletePatientById, createPatient, getPatientById, getAllActivePatient, getAllPatient} from "../controllers/patientController"
+import { updatePatientById, deletePatientById, createPatient, getPatientById, getAllActivePatient, getAllPatient} from "../controllers/patientController"
 
 
 const patientRouter = Router();
+
+patientRouter.route("/patient/:id")
+    .get(getPatientById)
+    .delete(deletePatientById)
+    .put(updatePatientById);
 
 patientRouter.route("/patient")
     .get(getAllActivePatient)
@@ -11,8 +16,6 @@ patientRouter.route("/patient")
 patientRouter.route("/patient/all")
     .get(getAllPatient)
 
-patientRouter.route("/patient/:id")
-    .get(getPatientById)
-    .delete(deletePatientById);
+
 
 export default patientRouter; 

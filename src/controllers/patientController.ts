@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import PatientService from "../services/patientService"
+import { PatientDTO } from "../entities/patient"
 
 const service = new PatientService();
 
@@ -51,5 +52,17 @@ export async function deletePatientById(req: Request, res:Response):Promise<Resp
         return res.status(204).json({ message: "Paciente borrado con éxito" });
     }catch(error){
         return res.status(400).json({ error: "Error, verifique los datos del usuario a borrar o intentelo más tarde"});
+    }
+}
+
+export async function updatePatientById(req: Request, res:Response){
+    try {
+        const patientId = parseInt(req.params.id, 10)
+        const patientDTO:PatientDTO = req.body;
+        const confirmation = await service.updatePatientById(patientId, patientDTO);
+        if(confirmation) return res.status(204).json({ message: "Paciente modificado con éxito" });
+        return res.status(404).json({ error: "Error, no se encontro al paciente."});
+    } catch (error) {
+        return res.status(400).json({ error: "Error, verifique los datos a actualizar o intentelo más tarde"});
     }
 }

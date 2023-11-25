@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import AppointmentService from "../services/appointmentService"
 import { Appointment } from "../entities/appointment";
 import { AppointmentData } from "../entities/appointmentData";
-import { RepeatPatient } from '../Exceptions/repeatPatient';
-import { BusyDoctor } from '../Exceptions/busyDoctor';
-import { DoubleAppointment } from '../Exceptions/doubleAppointment';
+import { RepeatPatient } from '../exceptions/repeatPatient';
+import { BusyDoctor } from '../exceptions/busyDoctor';
+import { DoubleAppointment } from '../exceptions/doubleAppointment';
 
 const service = new AppointmentService();
 
@@ -13,11 +13,10 @@ export async function getAllAppointmentByPatientId(req: Request, res:Response):P
         const patientId = parseInt(req.params.id, 10)
         const appointment = await service.getAllAppointmentByPatientId(patientId);
         if(appointment!=null) return res.status(200).json(appointment);
-        return res.status(204).json({ message: "No se encontraron citas" });
+        return res.status(404).json({ message: "No se encontraron citas" });
     } catch (error) {
         return res.status(500).json({error: "Error al ver las citas del paciente."})
     }
-   
 }
 
 export async function createAppointment(req: Request, res:Response){
@@ -31,8 +30,28 @@ export async function createAppointment(req: Request, res:Response){
         if (error instanceof RepeatPatient|| error instanceof BusyDoctor || error instanceof DoubleAppointment) {
             return res.status(400).json({ error: error.message });
         }else {
-            console.error("Error inesperado:", error);
             return res.status(500).json({ message: "Error interno del servidor" });
         }
+    }
+}
+
+export async function getAppointmentBySpecialty(req: Request, res:Response){
+    try {
+        const specialty = req.query.specialty as string;
+        const appointmentSpecialty = await service.getAppointmentBySpecialty(specialty);
+        if(appointmentSpecialty!=null) return res.status(200).json(appointmentSpecialty);
+        return res.status(404).json({ message: "No se encontraron citas" });
+    } catch (error) {
+        return res.status(500).json({ message: "Error interno del servidor" });
+    }
+}
+
+export async function getAllAppointments(req: Request, res:Response){
+    try {
+        const appointments = await service.getAllAppointments();
+        if(appointments!=null) return res.status(200).json(appointments);
+        return res.status(404).json({ message: "No se encontraron citas" });
+    } catch (error) {
+        return res.status(500).json({ message: "Error interno del servidor" });
     }
 }

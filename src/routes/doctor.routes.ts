@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getDoctorBySpecialty, getDoctorById, getAllDoctors, createDoctor, deleteDoctor, getDoctorActiveBySpecialty, getAllActiveDoctors} from "../controllers/doctorController"
+import { updateDoctorById, getDoctorById, getAllDoctors, createDoctor, deleteDoctor, getDoctorActiveBySpecialty, getAllActiveDoctors} from "../controllers/doctorController"
 
 
 const doctorRouter = Router();
@@ -11,14 +11,12 @@ doctorRouter.route("/doctor")
 doctorRouter.route("/doctor/all")
         .get(getAllDoctors);
 
-doctorRouter.route("/doctor/:id")
-        .delete(deleteDoctor)
-        .get(getDoctorById);
-        
-doctorRouter.route("/doctor/spc/:specialty") //Enhance route
+doctorRouter.route("/doctor/filter") 
         .get(getDoctorActiveBySpecialty);
 
-doctorRouter.route("/doctor/all/spc/:specialty") //Enhance route
-        .get(getDoctorBySpecialty);
-
+doctorRouter.route("/doctor/:id")
+        .delete(deleteDoctor)
+        .get(getDoctorById)
+        .put(updateDoctorById);
+        
 export default doctorRouter; 

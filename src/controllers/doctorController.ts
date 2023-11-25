@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import DoctorService from "../services/doctorService"
-import { Doctor } from "../entities/doctor";
+import { Doctor, DoctorDTO } from "../entities/doctor";
 
 const service = new DoctorService();
 
@@ -20,7 +20,6 @@ export async function getAllActiveDoctors(req: Request, res: Response): Promise<
     } catch (error) {
         return res.status(500).json({error: "Error al traer la información de los doctores. Intentelo más tarde"});
     }
-   
 }
 
 export async function getDoctorById(req: Request, res: Response): Promise<Response>{
@@ -57,21 +56,21 @@ export async function deleteDoctor(req: Request, res: Response){
     }
 }
 
-export async function getDoctorBySpecialty(req: Request, res: Response){
+export async function updateDoctorById(req: Request, res: Response){
     try {
-        const doctorSpecialty = req.params.specialty;
-        const doctorsBySpecialty = await service.getDoctorBySpecialty(doctorSpecialty);
-        if (Array.isArray(doctorsBySpecialty) && doctorsBySpecialty.length > 0) return res.status(200).json(doctorsBySpecialty);
-        return res.status(404).json({ message: "No se encontraron doctores con esta especialidad por el momento"});
-    }catch(error){
-        return res.status(400).json({ error: "Error, verifique los datos del doctor o intentelo más tarde"});
+        const doctorId = parseInt(req.params.id, 10)
+        const doctorDTO:DoctorDTO = req.body;
+        const confirmation = await service.updateDoctorById(doctorId, doctorDTO);
+        if(confirmation) return res.status(204).json({ message: "Doctor modificado con éxito" });
+        return res.status(404).json({ error: "Error, no se encontro al doctor."});
+    } catch (error) {
+        return res.status(400).json({ error: "Error, verifique los datos a actualizar o intentelo más tarde"});
     }
 }
 
-
 export async function getDoctorActiveBySpecialty(req: Request, res: Response){
     try {
-        const doctorSpecialty = req.params.specialty;
+        const doctorSpecialty = req.query.specialty as string;
         const doctorsBySpecialty = await service.getDoctorActiveBySpecialty(doctorSpecialty);
         if (Array.isArray(doctorsBySpecialty) && doctorsBySpecialty.length > 0) return res.status(200).json(doctorsBySpecialty);
         return res.status(404).json({ message: "No se encontraron doctores activos con esta especialidad por el momento"});

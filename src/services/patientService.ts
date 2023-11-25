@@ -1,5 +1,5 @@
 import { connection } from "../repository/database"
-import { Patient } from "../entities/patient"
+import { Patient, PatientDTO } from "../entities/patient"
  
 //Patient CRUD
 class PatientService{
@@ -33,6 +33,23 @@ class PatientService{
         await dbConnection.query("INSERT INTO pacientes (numero_cedula, nombre, apellido, edad, telefono, activo) VALUES (?, ?, ?, ?, ?,1)",
             [patient.cedula, patient.nombre, patient.apellido, patient.edad, patient.telefono]
         );
+    }
+
+    async updatePatientById(cedula:number, patient:PatientDTO){
+        const dbConnection = await connection();
+        const [result]:any = await dbConnection.query("SELECT * FROM pacientes WHERE numero_cedula=? AND activo=1", [cedula]);
+        if(result.length>0){
+            const patientResult:Patient = result[0];
+            if(patient.edad === undefined || patient.edad === null){
+                patient.edad = patientResult.edad;
+            }
+            if(patient.telefono==null || patient.edad === undefined){
+                patient.telefono = patientResult.telefono;
+            }
+            await dbConnection.query("UPDATE pacientes SET edad=?, telefono=? WHERE numero_cedula=?", [patient.edad, patient.telefono, cedula]);
+            return true;
+        }
+        return false;
     }
 
     async deletePatientById(cedula:number){

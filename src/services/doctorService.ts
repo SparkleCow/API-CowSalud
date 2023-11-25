@@ -1,5 +1,5 @@
 import { connection } from "../repository/database"
-import { Doctor } from "../entities/doctor"
+import { Doctor, DoctorDTO } from "../entities/doctor"
 
 //Doctor CRUD
 class DoctorService{
@@ -39,6 +39,23 @@ class DoctorService{
         const dbConnection = await connection();
         //Logic delete. Change status "active" to zero for an inactive doctor.
         await dbConnection.query("UPDATE doctores SET activo=0 WHERE id=?", [id]);
+    }
+
+    async updateDoctorById(id:number, doctor:DoctorDTO){
+        const dbConnection = await connection();
+        const [result]:any = await dbConnection.query("SELECT * FROM doctores WHERE id=? AND activo=1", [id]);
+        if(result.length>0){
+            const doctorResult:Doctor = result[0];
+            if(doctor.consultorio === undefined || doctor.consultorio === null){
+                doctor.consultorio = doctorResult.consultorio;
+            }
+            if(doctor.correo==null || doctor.correo == ""){
+                doctor.correo = doctorResult.correo;
+            }
+            await dbConnection.query("UPDATE doctores SET  consultorio=?, correo_electronico=? WHERE id=?", [doctor.consultorio,doctor.correo, id]);
+            return true;
+        }
+        return false;
     }
 
     //Get all doctors by their specialty.Shows all doctors who were or are active un CowSalud EPS

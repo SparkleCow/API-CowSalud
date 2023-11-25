@@ -7,3 +7,8 @@ export interface Patient{
     activo:number;
 }
 
+export interface PatientDTO{
+    edad?:number,
+    telefono?:number
+}
+
