@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import AppointmentService from "../services/appointmentService"
-import { Appointment } from "../entities/appointment";
 import { AppointmentData } from "../entities/appointmentData";
 import { RepeatPatient } from '../exceptions/repeatPatient';
 import { BusyDoctor } from '../exceptions/busyDoctor';
@@ -16,6 +15,17 @@ export async function getAllAppointmentByPatientId(req: Request, res:Response):P
         return res.status(404).json({ message: "No se encontraron citas" });
     } catch (error) {
         return res.status(500).json({error: "Error al ver las citas del paciente."})
+    }
+}
+
+export async function getAllAppointmentByDoctorId(req: Request, res:Response):Promise<Response>{
+    try {
+        const patientId = parseInt(req.params.id, 10)
+        const appointment = await service.getAllAppointmentByDoctorId(patientId);
+        if(appointment!=null) return res.status(200).json(appointment);
+        return res.status(404).json({ message: "No se encontraron citas" });
+    } catch (error) {
+        return res.status(500).json({error: "Error al ver las citas del doctor."})
     }
 }
 

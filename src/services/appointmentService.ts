@@ -26,6 +26,20 @@ class AppointmentService{
         return null;
     }
 
+    async getAllAppointmentByDoctorId(id:number){
+        const dbConnection = await connection();
+        const [appointment] = await dbConnection.query(`
+            SELECT a.numero_cedula, CONCAT(a.nombre, ' ', a.apellido) AS nombre_paciente, 
+            CONCAT(c.nombre, ' ', c.apellido) AS nombre_doctor, c.especialidad AS especialidad_doctor,
+            c.consultorio, DATE_FORMAT(b.fecha, '%Y-%m-%d') AS fecha, TIME(b.fecha) AS hora
+            FROM pacientes AS a 
+            INNER JOIN citas AS b ON a.numero_cedula = b.id_paciente 
+            INNER JOIN doctores AS c ON c.id = b.id_doctor WHERE c.id=?;`, [id]
+        );
+        if(Array.isArray(appointment) && appointment.length>0) return appointment;
+        return null;
+    }
+
     async createAppointment(doctorId:number,patientId:number, date:Date):Promise<Boolean>{
         const dataPatient:any = await patientService.getPatientById(patientId);
         const dataDoctor:any = await doctorService.getDoctorById(doctorId);

@@ -2,7 +2,7 @@ import {createPool} from "mysql2/promise"
 
 require("dotenv").config();
 
-//Database connection. Requires changing username and password according to your own account
+//Database connection. Requires changing username and password according to your own account in .env file
 export async function connection(){
     const connection = await createPool({
         host: process.env.HOST,

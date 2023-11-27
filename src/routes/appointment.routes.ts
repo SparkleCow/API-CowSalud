@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAllAppointments, getAppointmentBySpecialty, createAppointment, getAllAppointmentByPatientId } from "../controllers/appointmentController"
+import { getAllAppointmentByDoctorId, getAllAppointments, getAppointmentBySpecialty, createAppointment, getAllAppointmentByPatientId } from "../controllers/appointmentController"
 
 const appointmentRouter = Router();
 
@@ -8,6 +8,9 @@ appointmentRouter.route("/appointment/filter")
 
 appointmentRouter.route("/appointment/:id")
     .get(getAllAppointmentByPatientId);
+
+appointmentRouter.route("/appointment/doctor/:id")
+    .get(getAllAppointmentByDoctorId)
 
 appointmentRouter.route("/appointment")
     .post(createAppointment)

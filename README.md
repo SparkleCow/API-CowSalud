@@ -1,6 +1,12 @@
 # CowSalud EPS (API REST) 😷
 
-Hola a todos, bienvenidos a CowSalud EPS
+<b> WEB BACK END<br>
+<b>Unidad 6
+
+<b>Autor: Jonathan David Ramos Gallego
+
+
+Hola a todos, bienvenidos a CowSalud EPS. (API REST para manejo de pacientes, doctores y sus respectivas citas)
 
 ## ¿Qué tecnologías se emplearon en el proyecto? 🤖
 
@@ -19,29 +25,40 @@ Para ejecutar el API, debes asegurarte previamente de tener NodeJS Y npm en tu s
 1. Descarga el proyecto: Clona el repositorio con git clone https://github.com/SparkleCow/API-CowSalud.git o descarga el repositorio en formato .rar para poder manipularlo.
 2. Configurar variables de entorno: Crea un archivo .env en la raíz del proyecto y configura las variables necesarias.
 3. Instalar las dependencias del proyecto: Instala todas las dependencias que se encuentran en el archivo package.json por medio de la siguiente linea de codigo en la terminal -  npm install. Esto instalara todas las dependencias que se encuentren mencionadas en   el archivo package.json.
-4. Iniciar el proyecto: Ejecuta en la terminal el modo de desarrollo o producción por medio de los comandos npm run dev o npm run prod.
+4. Crea la base de datos: Crea la base de datos y sigue el formato de tablas encontrado en el archivo database.sql en la carpeta repository.
+5. Iniciar el proyecto: Ejecuta en la terminal el modo de desarrollo o producción por medio de los comandos npm run dev o npm run prod.
 
 ## Modelos de datos
 
 1. Paciente:<br> <br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/ccb06c32-3abd-4907-a460-304e86b57d0a) <br> <br>
 2. PacienteDTO ( Información del paciente que permite ser modificada ) <br> <br>
-![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/7b65382e-54f4-44d7-92b2-72f12589ff94)<br> <br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/7b65382e-54f4-44d7-92b2-72f12589ff94) <br> <br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/6d278a90-2770-4d34-aa9b-dd83701cbcb3) <br> <br>
+
 2. Doctor: <br> <br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/45dbfe96-a0ae-4aef-89bb-97343057bd84) <br> <br>
 4. DoctorDTO ( Información del doctor que permite ser modificada ) <br> <br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/fef8b8e7-2d98-469b-9e35-a2a671f489f6) <br> <br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/cd8b43e3-c153-477a-8e16-f356f1e646bf) <br> <br>
+
 3. Cita: <br> <br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/82922e4b-e22f-4917-a00c-af1777f533a9) <br> <br>
 4. CitaDTO( Envia información más detallada sobre la cita ) <br> <br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/d42ca861-8e50-42ed-980e-59f2b87a1a6e) <br> <br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/bf5f71ed-7740-4b72-bf68-d88341a79634) <br> <br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/52d36da8-1217-409b-88e9-9540d9771f38) <br> <br>
+
+4. Modelo de base de datos:<br> <br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/babe3c6a-e305-4cf7-b914-4c1b76e7f235) <br> <br>
+
 
 ## ¿Cómo funciona? ❔❔
 
 ### Doctores: 
 
-Se tiene un servicio CRUD que permite crear, buscar, eliminar y modificar doctores por medio de su id. Además este servicio permite listar los doctores que se encuentren actualmente trabajando con CowSaludEPS y tambien todos los doctores, tanto los activos como los que no lo estan.
-Este servicio tambien permite filtrar los doctores activos por medio de una query que recibe como parametro la especialidad, de esta forma podemos obtener los doctores filtrados por su especialidad.
+Se tiene un servicio CRUD que permite crear, buscar, eliminar y modificar doctores por medio de su id. Además este servicio permite listar los doctores que se encuentren actualmente trabajando con CowSaludEPS y tambien todos los doctores tanto los activos como los que no lo estan.
+Este servicio tambien permite filtrar los doctores activos por medio de una query, de esta forma podemos obtener los doctores filtrados por su especialidad.
 
 ### Pacientes: 
 
@@ -110,6 +127,9 @@ Este servicio realiza algunas validaciones con el fin de asegurar la integridad 
 * Obtener citas filtrando por cedula del paciente <br><br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/5810184a-25b5-4f59-a6d1-c3fd4319ff9e)<br><br>
 
+* Obtener citas filtrando por el id del doctor <br><br>
+![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/3b1983f7-f4f5-4357-bedf-f8c6f3d40261)
+
 * Crear cita <br><br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/6e0ee9d3-0fb5-4b5d-ac6a-b979ad820cce)<br><br>
 
@@ -123,10 +143,6 @@ Este servicio realiza algunas validaciones con el fin de asegurar la integridad 
 
 * Doble cita el mismo dia<br><br>
 ![image](https://github.com/SparkleCow/API-CowSalud/assets/55297516/8429ea3f-b11b-4d4d-8f00-9bd59dba2059)<br><br>
-
-
-
-
 
 
 
