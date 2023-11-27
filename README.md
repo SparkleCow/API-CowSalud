@@ -1,10 +1,10 @@
 # CowSalud EPS (API REST) 😷
 
-<b> WEB BACK END<br>
-<b>Unidad 6
+<b>DESARROLLO WEB BACK END<br>
+<b>Unidad 6<br>
+Docente: Norbey Danilo Muñoz
 
 <b>Autor: Jonathan David Ramos Gallego
-
 
 Hola a todos, bienvenidos a CowSalud EPS. (API REST para manejo de pacientes, doctores y sus respectivas citas)
 
