@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createAppointment = exports.getAllAppointmentByPatientId = void 0;
+exports.getAllAppointments = exports.getAppointmentBySpecialty = exports.createAppointment = exports.getAllAppointmentByPatientId = void 0;
 const appointmentService_1 = __importDefault(require("../services/appointmentService"));
-const repeatPatient_1 = require("../Exceptions/repeatPatient");
-const busyDoctor_1 = require("../Exceptions/busyDoctor");
-const doubleAppointment_1 = require("../Exceptions/doubleAppointment");
+const repeatPatient_1 = require("../exceptions/repeatPatient");
+const busyDoctor_1 = require("../exceptions/busyDoctor");
+const doubleAppointment_1 = require("../exceptions/doubleAppointment");
 const service = new appointmentService_1.default();
 function getAllAppointmentByPatientId(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -25,7 +25,7 @@ function getAllAppointmentByPatientId(req, res) {
             const appointment = yield service.getAllAppointmentByPatientId(patientId);
             if (appointment != null)
                 return res.status(200).json(appointment);
-            return res.status(204).json({ message: "No se encontraron citas" });
+            return res.status(404).json({ message: "No se encontraron citas" });
         }
         catch (error) {
             return res.status(500).json({ error: "Error al ver las citas del paciente." });
@@ -47,10 +47,38 @@ function createAppointment(req, res) {
                 return res.status(400).json({ error: error.message });
             }
             else {
-                console.error("Error inesperado:", error);
                 return res.status(500).json({ message: "Error interno del servidor" });
             }
         }
     });
 }
 exports.createAppointment = createAppointment;
+function getAppointmentBySpecialty(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const specialty = req.query.specialty;
+            const appointmentSpecialty = yield service.getAppointmentBySpecialty(specialty);
+            if (appointmentSpecialty != null)
+                return res.status(200).json(appointmentSpecialty);
+            return res.status(404).json({ message: "No se encontraron citas" });
+        }
+        catch (error) {
+            return res.status(500).json({ message: "Error interno del servidor" });
+        }
+    });
+}
+exports.getAppointmentBySpecialty = getAppointmentBySpecialty;
+function getAllAppointments(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const appointments = yield service.getAllAppointments();
+            if (appointments != null)
+                return res.status(200).json(appointments);
+            return res.status(404).json({ message: "No se encontraron citas" });
+        }
+        catch (error) {
+            return res.status(500).json({ message: "Error interno del servidor" });
+        }
+    });
+}
+exports.getAllAppointments = getAllAppointments;

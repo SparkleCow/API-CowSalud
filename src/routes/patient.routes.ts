@@ -4,6 +4,9 @@ import { updatePatientById, deletePatientById, createPatient, getPatientById, ge
 
 const patientRouter = Router();
 
+patientRouter.route("/patient/all")
+    .get(getAllPatient)
+
 patientRouter.route("/patient/:id")
     .get(getPatientById)
     .delete(deletePatientById)
@@ -12,10 +15,5 @@ patientRouter.route("/patient/:id")
 patientRouter.route("/patient")
     .get(getAllActivePatient)
     .post(createPatient);
-
-patientRouter.route("/patient/all")
-    .get(getAllPatient)
-
-
 
 export default patientRouter; 

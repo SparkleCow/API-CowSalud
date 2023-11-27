@@ -7,7 +7,9 @@ import doctorRouter from "./routes/doctor.routes";
 import patientRouter from "./routes/patient.routes";
 import appointmentRouter from "./routes/appointment.routes";
 
-const config = require("./config/config.js");
+require("dotenv").config();
+
+const PUERTO = process.env.PORT;
 
 //Server settings
 export class App {
@@ -32,7 +34,7 @@ export class App {
     } 
 
     async listen(){
-        this.app.listen(config.PORT);
-        console.log(`Server on port ${config.PORT}`);
+        this.app.listen(PUERTO);
+        console.log("Server on port ", PUERTO);
     }
 }

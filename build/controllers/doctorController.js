@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDoctorActiveBySpecialty = exports.getDoctorBySpecialty = exports.deleteDoctor = exports.createDoctor = exports.getDoctorById = exports.getAllActiveDoctors = exports.getAllDoctors = void 0;
+exports.getDoctorActiveBySpecialty = exports.updateDoctorById = exports.deleteDoctor = exports.createDoctor = exports.getDoctorById = exports.getAllActiveDoctors = exports.getAllDoctors = void 0;
 const doctorService_1 = __importDefault(require("../services/doctorService"));
 const service = new doctorService_1.default();
 function getAllDoctors(req, res) {
@@ -83,25 +83,26 @@ function deleteDoctor(req, res) {
     });
 }
 exports.deleteDoctor = deleteDoctor;
-function getDoctorBySpecialty(req, res) {
+function updateDoctorById(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const doctorSpecialty = req.params.specialty;
-            const doctorsBySpecialty = yield service.getDoctorBySpecialty(doctorSpecialty);
-            if (Array.isArray(doctorsBySpecialty) && doctorsBySpecialty.length > 0)
-                return res.status(200).json(doctorsBySpecialty);
-            return res.status(404).json({ message: "No se encontraron doctores con esta especialidad por el momento" });
+            const doctorId = parseInt(req.params.id, 10);
+            const doctorDTO = req.body;
+            const confirmation = yield service.updateDoctorById(doctorId, doctorDTO);
+            if (confirmation)
+                return res.status(204).json({ message: "Doctor modificado con éxito" });
+            return res.status(404).json({ error: "Error, no se encontro al doctor." });
         }
         catch (error) {
-            return res.status(400).json({ error: "Error, verifique los datos del doctor o intentelo más tarde" });
+            return res.status(400).json({ error: "Error, verifique los datos a actualizar o intentelo más tarde" });
         }
     });
 }
-exports.getDoctorBySpecialty = getDoctorBySpecialty;
+exports.updateDoctorById = updateDoctorById;
 function getDoctorActiveBySpecialty(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const doctorSpecialty = req.params.specialty;
+            const doctorSpecialty = req.query.specialty;
             const doctorsBySpecialty = yield service.getDoctorActiveBySpecialty(doctorSpecialty);
             if (Array.isArray(doctorsBySpecialty) && doctorsBySpecialty.length > 0)
                 return res.status(200).json(doctorsBySpecialty);

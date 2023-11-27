@@ -45,6 +45,24 @@ class PatientService {
             yield dbConnection.query("INSERT INTO pacientes (numero_cedula, nombre, apellido, edad, telefono, activo) VALUES (?, ?, ?, ?, ?,1)", [patient.cedula, patient.nombre, patient.apellido, patient.edad, patient.telefono]);
         });
     }
+    updatePatientById(cedula, patient) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dbConnection = yield (0, database_1.connection)();
+            const [result] = yield dbConnection.query("SELECT * FROM pacientes WHERE numero_cedula=? AND activo=1", [cedula]);
+            if (result.length > 0) {
+                const patientResult = result[0];
+                if (patient.edad === undefined || patient.edad === null) {
+                    patient.edad = patientResult.edad;
+                }
+                if (patient.telefono == null || patient.edad === undefined) {
+                    patient.telefono = patientResult.telefono;
+                }
+                yield dbConnection.query("UPDATE pacientes SET edad=?, telefono=? WHERE numero_cedula=?", [patient.edad, patient.telefono, cedula]);
+                return true;
+            }
+            return false;
+        });
+    }
     deletePatientById(cedula) {
         return __awaiter(this, void 0, void 0, function* () {
             const dbConnection = yield (0, database_1.connection)();

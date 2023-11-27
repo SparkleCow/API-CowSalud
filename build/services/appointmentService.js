@@ -16,9 +16,9 @@ const database_1 = require("../repository/database");
 const patientService_1 = __importDefault(require("./patientService"));
 const doctorService_1 = __importDefault(require("./doctorService"));
 const appointmentValidation_1 = require("./appointmentValidation");
-const repeatPatient_1 = require("../Exceptions/repeatPatient");
-const busyDoctor_1 = require("../Exceptions/busyDoctor");
-const doubleAppointment_1 = require("../Exceptions/doubleAppointment");
+const repeatPatient_1 = require("../exceptions/repeatPatient");
+const busyDoctor_1 = require("../exceptions/busyDoctor");
+const doubleAppointment_1 = require("../exceptions/doubleAppointment");
 const patientService = new patientService_1.default();
 const doctorService = new doctorService_1.default();
 class AppointmentService {
@@ -58,6 +58,36 @@ class AppointmentService {
             const dbConnection = yield (0, database_1.connection)();
             yield dbConnection.query("INSERT INTO citas values (?,?,?)", [dataDoctor[0].id, dataPatient[0].numero_cedula, date]);
             return true;
+        });
+    }
+    getAppointmentBySpecialty(specialty) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dbConnection = yield (0, database_1.connection)();
+            const [appointment] = yield dbConnection.query(`
+            SELECT a.numero_cedula, CONCAT(a.nombre, ' ', a.apellido) AS nombre_paciente, 
+            CONCAT(c.nombre, ' ', c.apellido) AS nombre_doctor, c.especialidad AS especialidad_doctor,
+            c.consultorio, DATE_FORMAT(b.fecha, '%Y-%m-%d') AS fecha, TIME(b.fecha) AS hora
+            FROM pacientes AS a 
+            INNER JOIN citas AS b ON a.numero_cedula = b.id_paciente 
+            INNER JOIN doctores AS c ON c.id = b.id_doctor WHERE c.especialidad LIKE ?;`, [`%${specialty.toLowerCase()}%`]);
+            if (Array.isArray(appointment) && appointment.length > 0)
+                return appointment;
+            return null;
+        });
+    }
+    getAllAppointments() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dbConnection = yield (0, database_1.connection)();
+            const [appointment] = yield dbConnection.query(`
+            SELECT a.numero_cedula, CONCAT(a.nombre, ' ', a.apellido) AS nombre_paciente, 
+            CONCAT(c.nombre, ' ', c.apellido) AS nombre_doctor, c.especialidad AS especialidad_doctor,
+            c.consultorio, DATE_FORMAT(b.fecha, '%Y-%m-%d') AS fecha, TIME(b.fecha) AS hora
+            FROM pacientes AS a 
+            INNER JOIN citas AS b ON a.numero_cedula = b.id_paciente 
+            INNER JOIN doctores AS c ON c.id = b.id_doctor;`);
+            if (Array.isArray(appointment) && appointment.length > 0)
+                return appointment;
+            return null;
         });
     }
 }

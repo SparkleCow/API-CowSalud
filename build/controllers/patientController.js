@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePatientById = exports.createPatient = exports.getPatientById = exports.getAllPatient = exports.getAllActivePatient = void 0;
+exports.updatePatientById = exports.deletePatientById = exports.createPatient = exports.getPatientById = exports.getAllPatient = exports.getAllActivePatient = void 0;
 const patientService_1 = __importDefault(require("../services/patientService"));
 const service = new patientService_1.default();
 function getAllActivePatient(req, res) {
@@ -84,3 +84,19 @@ function deletePatientById(req, res) {
     });
 }
 exports.deletePatientById = deletePatientById;
+function updatePatientById(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const patientId = parseInt(req.params.id, 10);
+            const patientDTO = req.body;
+            const confirmation = yield service.updatePatientById(patientId, patientDTO);
+            if (confirmation)
+                return res.status(204).json({ message: "Paciente modificado con éxito" });
+            return res.status(404).json({ error: "Error, no se encontro al paciente." });
+        }
+        catch (error) {
+            return res.status(400).json({ error: "Error, verifique los datos a actualizar o intentelo más tarde" });
+        }
+    });
+}
+exports.updatePatientById = updatePatientById;

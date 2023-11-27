@@ -8,11 +8,10 @@ doctorRouter.route("/doctor")
     .post(doctorController_1.createDoctor);
 doctorRouter.route("/doctor/all")
     .get(doctorController_1.getAllDoctors);
+doctorRouter.route("/doctor/filter")
+    .get(doctorController_1.getDoctorActiveBySpecialty);
 doctorRouter.route("/doctor/:id")
     .delete(doctorController_1.deleteDoctor)
-    .get(doctorController_1.getDoctorById);
-doctorRouter.route("/doctor/spc/:specialty") //Enhance route
-    .get(doctorController_1.getDoctorActiveBySpecialty);
-doctorRouter.route("/doctor/all/spc/:specialty") //Enhance route
-    .get(doctorController_1.getDoctorBySpecialty);
+    .get(doctorController_1.getDoctorById)
+    .put(doctorController_1.updateDoctorById);
 exports.default = doctorRouter;

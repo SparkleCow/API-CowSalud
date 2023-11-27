@@ -20,7 +20,8 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const doctor_routes_1 = __importDefault(require("./routes/doctor.routes"));
 const patient_routes_1 = __importDefault(require("./routes/patient.routes"));
 const appointment_routes_1 = __importDefault(require("./routes/appointment.routes"));
-const config = require("./config/config.js");
+require("dotenv").config();
+const PUERTO = process.env.PORT;
 //Server settings
 class App {
     constructor() {
@@ -40,8 +41,8 @@ class App {
     }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.app.listen(config.PORT);
-            console.log(`Server on port ${config.PORT}`);
+            this.app.listen(PUERTO);
+            console.log("Server on port ", PUERTO);
         });
     }
 }

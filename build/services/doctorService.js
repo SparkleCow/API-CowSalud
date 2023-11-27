@@ -52,6 +52,24 @@ class DoctorService {
             yield dbConnection.query("UPDATE doctores SET activo=0 WHERE id=?", [id]);
         });
     }
+    updateDoctorById(id, doctor) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const dbConnection = yield (0, database_1.connection)();
+            const [result] = yield dbConnection.query("SELECT * FROM doctores WHERE id=? AND activo=1", [id]);
+            if (result.length > 0) {
+                const doctorResult = result[0];
+                if (doctor.consultorio === undefined || doctor.consultorio === null) {
+                    doctor.consultorio = doctorResult.consultorio;
+                }
+                if (doctor.correo == null || doctor.correo == "") {
+                    doctor.correo = doctorResult.correo;
+                }
+                yield dbConnection.query("UPDATE doctores SET  consultorio=?, correo_electronico=? WHERE id=?", [doctor.consultorio, doctor.correo, id]);
+                return true;
+            }
+            return false;
+        });
+    }
     //Get all doctors by their specialty.Shows all doctors who were or are active un CowSalud EPS
     getDoctorBySpecialty(specialty) {
         return __awaiter(this, void 0, void 0, function* () {
